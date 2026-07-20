@@ -1,0 +1,8 @@
+pypdf
+python-docx
+python-dotenv
+openai
+langchain-core 
+langchain-community 
+langchain-text-splitters 
+langchain-experimental
