@@ -7,8 +7,9 @@ from uuid import uuid4
 from docx import Document
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from pypdf import PdfReader
+import pymupdf
+import pymupdf4llm
+from langchain_text_splitters import MarkdownTextSplitter
 
 
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
@@ -75,19 +76,56 @@ def get_llm():
 
 def parse_pdf(content, source_name):
     pages = []
-    reader = PdfReader(BytesIO(content))
 
-    for page_number, page in enumerate(reader.pages, start=1):
-        text = (page.extract_text() or "").strip()
-        if text:
-            pages.append({"text": text, "source": source_name, "page": str(page_number)})
+    with pymupdf.open(stream=content, filetype="pdf") as document:
+        page_chunks = pymupdf4llm.to_markdown(
+            document,
+            page_chunks=True,
+            header=False,
+            footer=False,
+        )
+
+    for index, page_chunk in enumerate(page_chunks, start=1):
+        markdown = page_chunk.get("text", "").strip()
+        if markdown:
+            pages.append({"text": markdown, "source": source_name, "page": str(index)})
     return pages
 
 
 def parse_docx(content, source_name):
     document = Document(BytesIO(content))
-    paragraphs = [paragraph.text.strip() for paragraph in document.paragraphs if paragraph.text.strip()]
-    text = "\n".join(paragraphs)
+    markdown = []
+
+    for paragraph in document.paragraphs:
+        text = paragraph.text.strip()
+        if not text:
+            continue
+
+        style = paragraph.style.name.lower() if paragraph.style else ""
+        if style == "title":
+            markdown.append(f"# {text}")
+        elif style == "subtitle":
+            markdown.append(f"## {text}")
+        elif style.startswith("heading"):
+            level = style.replace("heading", "").strip()
+            level = int(level) if level.isdigit() else 2
+            markdown.append(f"{'#' * min(level, 6)} {text}")
+        elif "list bullet" in style:
+            markdown.append(f"- {text}")
+        elif "list number" in style:
+            markdown.append(f"1. {text}")
+        else:
+            markdown.append(text)
+
+    for table in document.tables:
+        rows = [[cell.text.strip().replace("\n", " ") for cell in row.cells] for row in table.rows]
+        if not rows:
+            continue
+        markdown.append("| " + " | ".join(rows[0]) + " |")
+        markdown.append("| " + " | ".join("---" for _ in rows[0]) + " |")
+        markdown.extend("| " + " | ".join(row) + " |" for row in rows[1:])
+
+    text = "\n\n".join(markdown)
     return [{"text": text, "source": source_name, "page": "N/A"}] if text else []
 
 
@@ -101,10 +139,9 @@ def parse_document(content, source_name):
 
 
 def chunk_document(pages):
-    splitter = RecursiveCharacterTextSplitter(
+    splitter = MarkdownTextSplitter(
         chunk_size=int(os.getenv("CHUNK_SIZE", "1000")),
         chunk_overlap=int(os.getenv("CHUNK_OVERLAP", "150")),
-        separators=["\n\n", "\n", ". ", " ", ""],
     )
     chunks = []
 

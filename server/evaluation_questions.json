@@ -1,0 +1,112 @@
+[
+  {
+    "question": "Which three chunking methods were compared in the experiment?",
+    "expected_sources": [
+      "chunking_experiment_evaluation_source.pdf"
+    ],
+    "answerable": true,
+    "expected_answer": "Recursive, semantic, and Markdown chunking."
+  },
+  {
+    "question": "What document structures does recursive chunking use to split text?",
+    "expected_sources": [
+      "chunking_experiment_evaluation_source.pdf"
+    ],
+    "answerable": true,
+    "expected_answer": "Sections, paragraphs, and sentences, with smaller context when needed."
+  },
+  {
+    "question": "How does semantic chunking decide where to split?",
+    "expected_sources": [
+      "chunking_experiment_evaluation_source.pdf"
+    ],
+    "answerable": true,
+    "expected_answer": "It uses embeddings to detect topic or meaning transitions."
+  },
+  {
+    "question": "Which structural elements are used by Markdown chunking?",
+    "expected_sources": [
+      "chunking_experiment_evaluation_source.pdf"
+    ],
+    "answerable": true,
+    "expected_answer": "Headings, subheadings, sections, tables, and lists."
+  },
+  {
+    "question": "Which two embedding models were used in the experiment?",
+    "expected_sources": [
+      "chunking_experiment_evaluation_source.pdf"
+    ],
+    "answerable": true,
+    "expected_answer": "Qwen 3 8B and OpenAI Text-Embedding-3-Small."
+  },
+  {
+    "question": "Which text splitter had the highest MRR and Hit@3 with Qwen 3 8B?",
+    "expected_sources": [
+      "chunking_experiment_evaluation_source.pdf"
+    ],
+    "answerable": true,
+    "expected_answer": "The recursive text splitter."
+  },
+  {
+    "question": "Which text splitter had the highest MRR and Hit@3 with OpenAI Text-Embedding-3-Small?",
+    "expected_sources": [
+      "chunking_experiment_evaluation_source.pdf"
+    ],
+    "answerable": true,
+    "expected_answer": "The Markdown text splitter."
+  },
+  {
+    "question": "What does Hit@3 measure?",
+    "expected_sources": [
+      "chunking_experiment_evaluation_source.pdf"
+    ],
+    "answerable": true,
+    "expected_answer": "The percentage of correct results found in the top three search results."
+  },
+  {
+    "question": "What does MRR evaluate?",
+    "expected_sources": [
+      "chunking_experiment_evaluation_source.pdf"
+    ],
+    "answerable": true,
+    "expected_answer": "Where the correct answer appears in the results."
+  },
+  {
+    "question": "How did the best-performing chunking method differ between the two embedding models?",
+    "expected_sources": [
+      "chunking_experiment_evaluation_source.pdf"
+    ],
+    "answerable": true,
+    "expected_answer": "Recursive performed best with Qwen 3 8B, while Markdown performed best with OpenAI Text-Embedding-3-Small."
+  },
+  {
+    "question": "What exact chunk size and overlap were used in the experiment?",
+    "expected_sources": [],
+    "answerable": false,
+    "expected_answer": null
+  },
+  {
+    "question": "What were the exact numerical MRR and Hit@3 scores?",
+    "expected_sources": [],
+    "answerable": false,
+    "expected_answer": null
+  },
+  {
+    "question": "How many documents were included in the experiment dataset?",
+    "expected_sources": [],
+    "answerable": false,
+    "expected_answer": null
+  },
+  {
+    "question": "Which Supabase table stored the experiment embeddings?",
+    "expected_sources": [],
+    "answerable": false,
+    "expected_answer": null
+  },
+  {
+    "question": "How long did the experiment take to run?",
+    "expected_sources": [],
+    "answerable": false,
+    "expected_answer": null
+  }
+]
