@@ -1,0 +1,18 @@
+[project]
+name = "docuchat"
+version = "1.0.0"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "python-multipart",
+    "python-dotenv",
+    "pymupdf4llm",
+    "python-docx",
+    "langchain-openai",
+    "langchain-text-splitters",
+    "supabase",
+]
+
+[tool.vercel]
+entrypoint = "server.app:app"
