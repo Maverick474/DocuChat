@@ -4,7 +4,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from fastapi import FastAPI, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from server.models.model import ChatRequest, ChatResponse, Citation, UploadResponse
+from models.model import ChatRequest, ChatResponse, Citation, UploadResponse
 
 
 ENV_PATH = Path(__file__).resolve().parent.parent / ".env"
@@ -13,10 +13,10 @@ load_dotenv(ENV_PATH, override=True, encoding="utf-8-sig")
 
 try:
     from .rag import answer_question, ingest_document
-    from server.vector.vector_store import VectorStore
+    from vector.vector_store import VectorStore
 except ImportError:
     from rag import answer_question, ingest_document
-    from server.vector.vector_store import VectorStore
+    from vector.vector_store import VectorStore
 
 
 MAX_FILE_SIZE = int(os.getenv("MAX_FILE_SIZE_MB", "10")) * 1024 * 1024

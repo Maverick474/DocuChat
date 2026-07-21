@@ -4,10 +4,10 @@ from pathlib import Path
 
 try:
     from .rag import REFUSAL_MESSAGE, answer_question, retrieve
-    from server.vector.vector_store import VectorStore
+    from vector.vector_store import VectorStore
 except ImportError:
     from rag import REFUSAL_MESSAGE, answer_question, retrieve
-    from server.vector.vector_store import VectorStore
+    from vector.vector_store import VectorStore
 
 
 def load_questions(path):
