@@ -19,7 +19,7 @@ except ImportError:
     from vector.vector_store import VectorStore
 
 
-MAX_FILE_SIZE = int(os.getenv("MAX_FILE_SIZE_MB", "10")) * 1024 * 1024
+MAX_FILE_SIZE = int(os.getenv("MAX_FILE_SIZE_MB", "4")) * 1024 * 1024
 ALLOWED_EXTENSIONS = {".pdf", ".docx"}
 ALLOWED_CONTENT_TYPES = {
     "application/pdf",

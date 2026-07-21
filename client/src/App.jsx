@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
-const MAX_FILE_SIZE = 10 * 1024 * 1024;
+const MAX_FILE_SIZE_MB = Number(import.meta.env.VITE_MAX_FILE_SIZE_MB || 4);
+const MAX_FILE_SIZE = MAX_FILE_SIZE_MB * 1024 * 1024;
 const ALLOWED_EXTENSIONS = ["pdf", "docx"];
 
 const initialMessages = [
@@ -60,7 +61,7 @@ function App() {
     if (!file) return "Please select a file.";
     const extension = file.name.split(".").pop()?.toLowerCase();
     if (!ALLOWED_EXTENSIONS.includes(extension)) return "Only PDF and DOCX files are supported.";
-    if (file.size > MAX_FILE_SIZE) return "The file must be 10 MB or smaller.";
+    if (file.size > MAX_FILE_SIZE) return `The file must be ${MAX_FILE_SIZE_MB} MB or smaller.`;
     return "";
   }
 
@@ -197,7 +198,7 @@ function App() {
             >
               <div className="upload-icon">↑</div>
               <strong>{isUploading ? "Processing document…" : "Drop your document here"}</strong>
-              <span>PDF or DOCX · maximum 10 MB</span>
+              <span>PDF or DOCX · maximum {MAX_FILE_SIZE_MB} MB</span>
               <button className="choose-file" type="button" onClick={() => fileInputRef.current?.click()}>
                 {isUploading ? "Please wait" : "Choose file"}
               </button>

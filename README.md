@@ -6,7 +6,7 @@ The project was developed as a Week 3 Retrieval-Augmented Generation (RAG) assig
 
 ## Features
 
-- Upload PDF and DOCX documents up to 10 MB.
+- Upload PDF and DOCX documents with a configurable size limit.
 - Convert PDF pages to structured Markdown with PyMuPDF4LLM.
 - Preserve DOCX headings, lists, paragraphs, and tables as Markdown.
 - Split documents with `MarkdownTextSplitter` using configurable chunk size and overlap.
@@ -69,7 +69,7 @@ SUPABASE_URL=https://your-project-reference.supabase.co
 SUPABASE_API_KEY=your_supabase_api_key
 FRONTEND_URL=http://localhost:5173
 
-MAX_FILE_SIZE_MB=10
+MAX_FILE_SIZE_MB=4
 CHUNK_SIZE=1000
 CHUNK_OVERLAP=150
 MATCH_THRESHOLD=0.5
@@ -81,6 +81,7 @@ For a frontend URL other than the default backend URL, create `client/.env`:
 
 ```env
 VITE_API_URL=http://localhost:8000
+VITE_MAX_FILE_SIZE_MB=4
 ```
 
 Never place the OpenRouter key or a privileged Supabase key in the React environment.
@@ -209,6 +210,49 @@ npm run dev
 ```
 
 The frontend normally runs at `http://localhost:5173`.
+
+## Deploying on Vercel
+
+Deploy the frontend and backend as two Vercel projects connected to the same Git repository. Select `server` as the backend project root and `client` as the frontend project root.
+
+### Backend project
+
+1. Import the repository into Vercel.
+2. Set the Root Directory to `server`.
+3. Let Vercel detect the FastAPI application in `app.py`.
+4. Add the following environment variables:
+
+```env
+OPENROUTER_API_KEY=your_openrouter_api_key
+SUPABASE_URL=https://your-project-reference.supabase.co
+SUPABASE_API_KEY=your_supabase_api_key
+FRONTEND_URL=https://your-frontend-project.vercel.app
+MAX_FILE_SIZE_MB=4
+CHUNK_SIZE=1000
+CHUNK_OVERLAP=150
+MATCH_THRESHOLD=0.5
+```
+
+5. Deploy and copy the backend URL, such as `https://your-docuchat-api.vercel.app`.
+6. Verify the backend URL and its `/docs` page.
+
+### Frontend project
+
+1. Import the same repository as another Vercel project.
+2. Set the Root Directory to `client`.
+3. Select the Vite framework preset if it is not detected automatically.
+4. Add the following environment variables:
+
+```env
+VITE_API_URL=https://your-docuchat-api.vercel.app
+VITE_MAX_FILE_SIZE_MB=4
+```
+
+5. Deploy and copy the frontend URL.
+6. Set the backend project's `FRONTEND_URL` to the exact frontend URL without a trailing slash.
+7. Redeploy the backend after changing `FRONTEND_URL`.
+
+Vercel Functions accept request bodies up to 4.5 MB. DocuChat uses a 4 MB limit to leave room for multipart form-data overhead.
 
 ## API Endpoints
 
