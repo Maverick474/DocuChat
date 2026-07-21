@@ -30,7 +30,7 @@ ALLOWED_CONTENT_TYPES = {
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173").rstrip("/")
 FRONTEND_ORIGIN_REGEX = os.getenv(
     "FRONTEND_ORIGIN_REGEX",
-    r"^https://docu-chat-4krh(?:-[a-z0-9-]+)?\.vercel\.app$",
+    r"^https://docu-chat(?:-[a-z0-9]+)*\.vercel\.app$",
 )
 
 app = FastAPI(title="DocuChat API", version="1.0.0")
