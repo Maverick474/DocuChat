@@ -54,7 +54,7 @@ The project was developed as a Week 3 Retrieval-Augmented Generation (RAG) assig
 
 ## Prerequisites
 
-- Python 3.11 or later
+- Python 3.12
 - Node.js 20 or later
 - A Supabase project
 - An OpenRouter API key
