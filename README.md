@@ -364,9 +364,3 @@ Check that the frontend sends the correct `document_id`. Then inspect the extrac
 
 The current parser expects extractable text. Image-only PDFs require OCR before they can be indexed.
 
-## Notes
-
-- Upload a document successfully before sending questions about it.
-- Questions should be based on information contained in the uploaded document.
-- Restart the backend after changing environment variables.
-- Do not commit `.env` or expose backend API keys in frontend code.
