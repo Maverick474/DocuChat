@@ -43,7 +43,7 @@ function App() {
   useEffect(() => {
     async function checkServer() {
       try {
-        const response = await fetch(`${API_BASE_URL}/health`);
+        const response = await fetch(`${API_BASE_URL}/`);
         setServerStatus(response.ok ? "online" : "offline");
       } catch {
         setServerStatus("offline");
@@ -234,7 +234,7 @@ function App() {
 
           <div className="server-state">
             <span className={`status-dot ${serverStatus}`}></span>
-            {serverStatus === "online" ? "FastAPI server connected" : serverStatus === "offline" ? "FastAPI server unavailable" : "Checking server connection…"}
+            {serverStatus === "online" ? "server connected" : serverStatus === "offline" ? "server unavailable" : "Checking server connection…"}
           </div>
         </aside>
 
