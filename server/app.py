@@ -6,6 +6,11 @@ from fastapi import FastAPI, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
+
+ENV_PATH = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(ENV_PATH, override=True, encoding="utf-8-sig")
+
+
 try:
     from .rag import answer_question, ingest_document
     from .vector_store import VectorStore
@@ -13,8 +18,6 @@ except ImportError:
     from rag import answer_question, ingest_document
     from vector_store import VectorStore
 
-
-load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 MAX_FILE_SIZE = int(os.getenv("MAX_FILE_SIZE_MB", "10")) * 1024 * 1024
 ALLOWED_EXTENSIONS = {".pdf", ".docx"}
@@ -79,7 +82,7 @@ def validate_file(file, content):
         )
 
 
-@app.get("/health")
+@app.get("/")
 def health():
     configured = all(
         os.getenv(name)

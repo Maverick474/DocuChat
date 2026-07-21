@@ -12,11 +12,11 @@ import pymupdf4llm
 from langchain_text_splitters import MarkdownTextSplitter
 
 
-load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+load_dotenv()
 
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 EMBEDDING_MODEL = "openai/text-embedding-3-small"
-CHAT_MODEL = "anthropic/claude-3.5-haiku"
+CHAT_MODEL = "anthropic/claude-3-haiku"
 REFUSAL_MESSAGE = "I could not find this information in the provided documents."
 
 RAG_PROMPT = """You are a document-based question-answering assistant.
@@ -48,18 +48,10 @@ Rules:
 Answer:
 """
 
-
-def get_api_key():
-    api_key = os.getenv("OPENROUTER_API_KEY")
-    if not api_key:
-        raise ValueError("OPENROUTER_API_KEY is missing from the .env file.")
-    return api_key
-
-
 def get_embeddings():
     return OpenAIEmbeddings(
         model=EMBEDDING_MODEL,
-        api_key=get_api_key(),
+        api_key=os.getenv('OPENROUTER_API_KEY'),
         base_url=OPENROUTER_BASE_URL,
     )
 
@@ -67,7 +59,7 @@ def get_embeddings():
 def get_llm():
     return ChatOpenAI(
         model=CHAT_MODEL,
-        api_key=get_api_key(),
+        api_key=os.getenv('OPENROUTER_API_KEY'),
         base_url=OPENROUTER_BASE_URL,
         temperature=0,
         max_tokens=800,
