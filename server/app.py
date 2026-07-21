@@ -4,7 +4,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from fastapi import FastAPI, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from server.models.model import ChatRequest, ChatResponse, Citation, UploadResponse
 
 
 ENV_PATH = Path(__file__).resolve().parent.parent / ".env"
@@ -13,10 +13,10 @@ load_dotenv(ENV_PATH, override=True, encoding="utf-8-sig")
 
 try:
     from .rag import answer_question, ingest_document
-    from .vector_store import VectorStore
+    from server.vector.vector_store import VectorStore
 except ImportError:
     from rag import answer_question, ingest_document
-    from vector_store import VectorStore
+    from server.vector.vector_store import VectorStore
 
 
 MAX_FILE_SIZE = int(os.getenv("MAX_FILE_SIZE_MB", "10")) * 1024 * 1024
@@ -29,34 +29,11 @@ ALLOWED_CONTENT_TYPES = {
 app = FastAPI(title="DocuChat API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[os.getenv("FRONTEND_ORIGIN", "http://localhost:5173")],
+    allow_origins=[os.getenv("FRONTEND_URL", "http://localhost:5173").rstrip("/")],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-class ChatRequest(BaseModel):
-    question: str = Field(min_length=1, max_length=2000)
-    document_id: str | None = None
-    top_k: int = Field(default=5, ge=1, le=10)
-
-
-class Citation(BaseModel):
-    source: str
-    page: str
-    chunk: int
-
-
-class ChatResponse(BaseModel):
-    answer: str
-    citations: list[Citation]
-
-
-class UploadResponse(BaseModel):
-    document_id: str
-    filename: str
-    chunks_stored: int
 
 
 def get_store():
