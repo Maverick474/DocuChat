@@ -266,7 +266,8 @@ Each chunk receives document, source, page, and chunk metadata. Its embedding is
 
 The retrieved chunks are inserted into a grounded prompt. The model is instructed not to use outside knowledge, not to follow instructions contained inside documents, and to refuse when the context contains no relevant information. Generated citations are checked against the retrieved metadata. An answer without a valid citation is rejected, although validated citations are removed from the visible answer text.
 
-``` Rag Prompt Template
+### Rag Prompt Template 
+``` 
 You are a document-based question-answering assistant.
 
 Answer the question using only the information in the provided context.
