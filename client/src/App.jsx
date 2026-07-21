@@ -8,7 +8,7 @@ const initialMessages = [
   {
     id: 1,
     role: "assistant",
-    text: "Welcome to DocuChat. Upload a PDF or DOCX, then ask a question and I’ll answer only from that document with source citations.",
+    text: "Welcome to DocuChat. Upload a PDF or DOCX, then ask a question and I'll answer only from that document.",
     citations: [],
   },
 ];
@@ -254,15 +254,6 @@ function App() {
                   <div className="avatar">{message.role === "user" ? "YOU" : "AI"}</div>
                   <div className="message-body">
                     <div className="bubble">{message.text}</div>
-                    {message.citations?.length > 0 && (
-                      <div className="citations" aria-label="Sources">
-                        {message.citations.map((citation, index) => (
-                          <span className="citation" key={`${citation.source}-${citation.page}-${citation.chunk}-${index}`} title={citation.source}>
-                            {citation.source} · page {citation.page} · chunk {citation.chunk}
-                          </span>
-                        ))}
-                      </div>
-                    )}
                     {message.time && <div className="message-time">{message.time}</div>}
                   </div>
                 </article>
@@ -295,7 +286,7 @@ function App() {
               />
               <button className="send-button" type="submit" disabled={!draft.trim() || isSending} aria-label="Send message">↑</button>
             </form>
-            <p className="composer-note">Enter to send · Shift + Enter for a new line · Responses should be verified against cited sources</p>
+            <p className="composer-note">Enter to send | Shift + Enter for a new line</p>
           </div>
         </section>
       </main>
