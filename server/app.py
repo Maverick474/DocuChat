@@ -27,7 +27,7 @@ ALLOWED_CONTENT_TYPES = {
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 }
 
-frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173").rstrip("/")
+frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173")
 
 app = FastAPI(title="DocuChat API", version="1.0.0")
 app.add_middleware(
