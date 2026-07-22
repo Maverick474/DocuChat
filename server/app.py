@@ -66,7 +66,7 @@ def validate_file(file, content):
 def health():
     configured = all(
         os.getenv(name)
-        for name in ("OPENROUTER_API_KEY", "SUPABASE_URL", "SUPABASE_API_KEY").rstrip("/")
+        for name in ("OPENROUTER_API_KEY", "SUPABASE_URL", "SUPABASE_API_KEY")
     )
     return {"status": "ok", "services_configured": configured}
 
