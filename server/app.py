@@ -27,17 +27,12 @@ ALLOWED_CONTENT_TYPES = {
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 }
 
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173").rstrip("/")
-FRONTEND_ORIGIN_REGEX = os.getenv(
-    "FRONTEND_ORIGIN_REGEX",
-    r"^https://docu-chat(?:-[a-z0-9]+)*\.vercel\.app$",
-)
+frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173").rstrip("/")
 
 app = FastAPI(title="DocuChat API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[FRONTEND_URL],
-    allow_origin_regex=FRONTEND_ORIGIN_REGEX,
+    allow_origins=[frontend_url],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
