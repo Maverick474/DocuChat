@@ -32,7 +32,7 @@ frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173")
 app = FastAPI(title="DocuChat API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[frontend_url],
+    allow_origins=[frontend_url, "https://docu-chat-4krh.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
